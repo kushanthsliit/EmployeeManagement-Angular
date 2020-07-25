@@ -1,0 +1,57 @@
+<div class="container-fluid">
+  <h2>Registation Form</h2>
+
+  {{registrationForm.value | json}}
+
+
+  <form [formGroup]= "registrationForm">
+    <div class="form-group">
+      <label>User Name : </label>
+      <input formControlName="userName" type="text" class="form-control" [class.is-invalid]="registrationForm.get('userName').invalid && registrationForm.get('userName').touched">
+      <!-- <small [class.d-none]="registrationForm.get('userName').valid || registrationForm.get('userName').untouched" class="text-danger">User Name is required..!</small> -->
+      <div *ngIf="registrationForm.get('userName').invalid && registrationForm.get('userName').touched">
+        <small *ngIf="registrationForm.get('userName').errors?.required" class="text-danger">User Name is required..!</small>
+        <small *ngIf="registrationForm.get('userName').errors?.minlength" class="text-danger">User Name must be at least 5 charectors..!</small>
+      </div>
+
+      <!-- registrationForm.get('userName')  can use as a funtion
+      
+        userName()  funtion in class.
+
+        Eg : userName.invalid
+      -->
+    </div>
+
+    <div class="form-group">
+      <label>Password : </label>
+      <input formControlName="password" type="password" class="form-control">
+    </div>
+
+    <div class="form-group">
+      <label>Confirm Password : </label>
+      <input formControlName="confirmPassword" type="password" class="form-control">
+    </div>
+
+    <div formGroupName="address">
+      <div class="form-group">
+        <label>City :</label>
+        <input formControlName="city" type="text" class="form-control">
+      </div>
+
+      <div class="form-group">
+        <label>State :</label>
+        <input formControlName="state" type="text" class="form-control">
+      </div>
+
+      <div class="form-group">
+        <label>Postal code :</label>
+        <input formControlName="postalCode" type="text" class="form-control">
+      </div>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Register</button>
+    <button (click)="loadApiData()" class="btn btn-secondary ml-2" type="button">Load API Data</button>
+
+  </form>
+
+</div>

@@ -1,0 +1,70 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-6">
+            <form #employeeForm="ngForm" (ngSubmit)="onSubmit(); employeeForm.reset()">
+                Form valid or not : 
+                {{employeeForm.form.valid}}
+                <br/>
+                Form values
+                {{employeeForm.value | json}}
+                <br/>
+                Class values
+                {{empRegisterData | json}}
+
+                <div class="form-group">
+                  <label>Name</label>
+                  <input type="text" #name="ngModel" required [class.is-invalid]="name.invalid && name.touched" class="form-control" name="name" [(ngModel)]="empRegisterData.name">
+                  <small class="text-danger" [class.d-none]="name.valid || name.untouched">Name is required !</small>
+                </div>
+        
+                <div class="form-group">
+                  <label>Address</label>
+                  <input type="text" #address="ngModel" required [class.is-invalid]="address.invalid && address.touched" class="form-control" name="address" [(ngModel)]="empRegisterData.address">
+                  <small class="text-danger" [class.d-none]="address.valid || address.untouched">Address is required !</small>
+                </div>
+
+                <div class="form-group">
+                    <label>Phone</label>
+                    <input type="text" #phone="ngModel" required pattern="^\d{10}$" [class.is-invalid]="phone.invalid && phone.touched" class="form-control" name="phone" [(ngModel)]="empRegisterData.phone">
+                    <!-- <small class="text-danger" [class.d-none]="phone.valid || phone.untouched">Phone number must be 10 digits</small> -->
+                    <div *ngIf="phone.errors && (phone.invalid || phone.touched)" [class.d-none]="phone.valid || phone.untouched">
+                      <small class="text-danger" *ngIf="phone.errors.required">Phone number is required !</small>
+                      <small class="text-danger" *ngIf="phone.errors.pattern">Phone number must be 10 digits !</small>
+                    </div>
+                  </div>
+        
+                <div class="form-group">
+                    <label>Salary</label>
+                    <input type="number" required #salary="ngModel" [class.is-invalid]="salary.invalid && salary.touched" class="form-control" name="salary" [(ngModel)]="empRegisterData.salary">
+                    <small class="text-danger" [class.d-none]="salary.valid || salary.untouched">Salary is required !</small>
+                </div>
+               
+                <button type="submit" [class.disabled]="employeeForm.form.invalid" class="btn btn-primary">Submit</button>
+            </form>
+        </div>
+
+        <div class="col-sm-6 mt-5">
+            <table class="table" >
+                <thead class="thead-dark">
+                  <tr>
+                    <th scope="col">Name</th>
+                    <th scope="col">Address</th>
+                    <th scope="col">Salary</th>
+                    <th scope="col">Phone</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor = "let emp of employees" (click)="getEmpData(emp.empId)">
+                      <td>{{emp.name}}</td>
+                      <td>{{emp.address}}</td>
+                      <td>{{emp.salary}}</td>
+                      <td>{{emp.phone}}</td>
+                      <button class="btn btn-sm btn-outline-danger mt-2" (click) = "deleteRecord(emp.empId)">X</button>
+                  </tr>
+                </tbody>
+              </table>
+        </div>
+    </div>
+    
+</div>
